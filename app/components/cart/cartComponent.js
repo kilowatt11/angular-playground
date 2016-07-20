@@ -1,4 +1,4 @@
-;(function () {
+ ;(function () {
   angular.module('angularPlayground')
 
     .component('cartComponent', {
@@ -6,20 +6,36 @@
       templateUrl: '/app/components/cart/cart.html'
     })
 
-  function CartController () {
-    this.cartStatus = 'Working'
+  function CartController() {
+    var cc = this;
+    cc.cartStatus = 'Working'
     // The cart is an array of items that we are adding to from our view
-    this.cart = []
+    cc.cart = []
     // The StoreData.js is the information we are using to populate our page
-    this.store = {
+    cc.store = {
       items: StoreData
     }
     // *** No Need to edit anything above this line ****
 
-    this.name = 'My BɼokƏn Cart!'
+    cc.name = 'My BɼokƏn Cart!'
 
-    this.getCartCount = function () {
+    cc.getCartCount = function () {
+     
+      return cc.cart.length
+
       // return the length of our cart
+
+    }
+
+    cc.calculateCartTotal = function () {
+
+      var out = 0
+      for (var i = 0; i < cc.cart.length; i++) {
+        var currentItem = cc.cart[i];
+         out += currentItem.price * currentItem.quantity;
+
+      }
+      return out;
     }
 
     /*
@@ -30,8 +46,17 @@
     */
 
 
-    this.removeItemFromCart = function (item) {
+    cc.removeItemFromCart = function (item) {
+debugger;
+      console.log(item.$$hashKey)
       // Item gets passed in from our view when the user clicks the x button
+      for (var i = 0; i < cc.cart.length; i++) {
+        var currentItem = cc.cart[i];
+        if (currentItem.$$hashKey == item.$$hashKey) {
+          cc.cart.splice(i, 1)
+        }
+
+      }
 
       /*
       * This function should be able to remove the passed in item
@@ -41,9 +66,19 @@
       */
     }
 
-    this.addItemToCart = function (item) {
+    cc.addItemToCart = function (item) {
+      console.log(item)
+      
+      //  var newItem = new Item(item.name, item.selectedColor, item.selectedSize, item.quantity, item.price)
       // item gets passed in to this function from the view
-
+      var newItem = {
+        name: item.name,
+        color: item.selectedColor,
+        size: item.selectedSize,
+        quantity: 1,
+        price: item.price
+      }
+      cc.cart.push(newItem)
       /*
       *Our cart demands that items being added to it must have the following properties
       *var newItem = {
@@ -60,5 +95,6 @@
       */
 
     }
+
   }
-}())
+} ())

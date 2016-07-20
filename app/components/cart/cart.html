@@ -9,13 +9,13 @@
 </div>
 <hr>
 <div class="ng-exercises">
-  <h1>{{component.name}}</h1>
-  <p>Items added to your Cart ({{component.getCount() || 0}})</p>
+  <h1>{{$ctrl.name}}</h1>
+  <p>Items added to your Cart ({{$ctrl.getCartCount() || 0}})</p>
   <hr />
-  <p class="alert alert-warning" ng-show="component.cart.length < 1">
+  <p class="alert alert-warning" ng-show="$ctrl.cart.length < 1">
     You have no items in your cart... Buy something!
   </p>
-  <table class="table" ng-if="component.cart.length > 0">
+  <table class="table" ng-if="$ctrl.cart.length > 0">
     <thead>
       <tr>
         <th>Item</th>
@@ -27,7 +27,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="item in component.cart">
+      <tr ng-repeat="item in $ctrl.cart">
         <td>{{item.name}}</td>
         <td>{{item.color}}</td>
         <td>{{item.size}}</td>
@@ -35,9 +35,9 @@
           <select ng-model="item.quantity" ng-options="o as o for o in [1,2,3,4,5,6,7,8,9,10]"></select>
         </td>
         <!--HElP out the view to make the price of this item display as currency by using a filter-->
-        <td>{{item.price * item.quantity}}</td>
+        <td>{{item.price * item.quantity | currency}}</td>
         <td>
-          <button class="btn btn-xs btn-warning" ng-click=component.removeItemFromCart(item)>X</button>
+          <button class="btn btn-xs btn-warning" ng-click=$ctrl.removeItemFromCart(item)>X</button>
         </td>
       </tr>
     </tbody>
@@ -48,7 +48,7 @@
         <td></td>
         <td class="text-right">Total:</td>
         <!--HElP out the view to make the price display as currency by using a filter-->
-        <td>{{component.calculateCartTotal()}}</td>
+        <td>{{$ctrl.calculateCartTotal() | currency}}</td>
         <td></td>
       </tr>
     </tfoot>
@@ -66,10 +66,10 @@
         - Where the first word represents an entire object similarly to the .forEach(function(item))
         - ** hint: be sure to use item as the first word
         -->
-      <div ng-repeat="" class="col-sm-4">
+      <div ng-repeat="item in $ctrl.store.items" class="col-sm-4">
         <div class="shopping-item">
           <!--HElP out the view to make the price of the item display as currency by using a filter-->
-          <p class="item-price">{{item.price}}</p>
+          <p class="item-price">{{item.price | currency}}</p>
           <p class="item-name">
             {{item.name}}</p>
           <img ng-src="{{item.img}}">
@@ -82,7 +82,7 @@
               <option ng-repeat="size in item.sizes">{{size}}</option>
             </select>
           </p>
-          <button class="btn btn-xs btn-primary" ng-disabled="!item.selectedColor || !item.selectedSize" ng-click="component.addItemToCart(item)">Add</button>
+          <button class="btn btn-xs btn-primary" ng-disabled="!item.selectedColor || !item.selectedSize" ng-click="$ctrl.addItemToCart(item)">Add</button>
         </div>
       </div>
     </div>

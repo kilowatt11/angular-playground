@@ -6,6 +6,14 @@
     })
 
   function ControllersController () {
-    this.controllersStatus = 'Working'
+    var person = this;
+    
+   person.controllersStatus = 'Working'
+    person.friends =  ['Joey', 'Chandler', 'Monica', 'Phebes', 'Ross & Rachel'];
+    person.addFriend =  function(friend){
+      person.friends.push(friend);
+      person.friend = '';
+    
+    }
   }
 }())
